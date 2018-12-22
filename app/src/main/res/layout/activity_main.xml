@@ -10,11 +10,17 @@
         android:id="@+id/btnRockets"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Rockets" />
+        android:text="@string/rockets" />
 
     <Button
         android:id="@+id/btnLaunches"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Launches" />
+        android:text="@string/launches" />
+
+    <Button
+        android:id="@+id/btnShips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ships" />
 </LinearLayout>

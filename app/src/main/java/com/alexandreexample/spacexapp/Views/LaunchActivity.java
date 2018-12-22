@@ -34,7 +34,7 @@ public class LaunchActivity extends AppCompatActivity {
     }
 
     public void executeRequest() {
-        githubService.getLaunch(flightNumber).enqueue(new Callback<Launch>() {
+        githubService.getOneLaunch(flightNumber).enqueue(new Callback<Launch>() {
             @Override
             public void onResponse(Call<Launch> call, Response<Launch> response) {
                 launch = response.body();

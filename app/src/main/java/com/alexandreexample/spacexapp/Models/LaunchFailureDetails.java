@@ -28,5 +28,6 @@ public class LaunchFailureDetails implements Serializable {
     public String getReason() {
         return reason;
     }
+
 }
 

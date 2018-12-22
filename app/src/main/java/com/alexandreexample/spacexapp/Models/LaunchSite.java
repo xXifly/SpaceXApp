@@ -28,4 +28,5 @@ public class LaunchSite implements Serializable {
     public String getSiteNameLong() {
         return siteNameLong;
     }
+
 }

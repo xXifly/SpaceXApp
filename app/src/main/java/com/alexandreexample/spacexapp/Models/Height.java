@@ -7,11 +7,6 @@ import java.io.Serializable;
 
 public class Height implements Serializable {
 
-    public Height(float meters, float feet) {
-        this.meters = meters;
-        this.feet = feet;
-    }
-
     @SerializedName("meters")
     @Expose
     private float meters;
@@ -27,6 +22,5 @@ public class Height implements Serializable {
     public float getFeet() {
         return feet;
     }
-
 
 }

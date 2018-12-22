@@ -7,16 +7,17 @@ import android.widget.TextView;
 
 import com.alexandreexample.spacexapp.Models.Launch;
 import com.alexandreexample.spacexapp.Models.Rocket;
+import com.alexandreexample.spacexapp.Models.Ship;
 import com.alexandreexample.spacexapp.R;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     private TextView myRocketName;
     private ImageView myPicture;
 
-    public RecyclerViewHolder(View itemView) {
+    RecyclerViewHolder(View itemView) {
         super(itemView);
         myRocketName = itemView.findViewById(R.id.rocket_name);
         myPicture = itemView.findViewById(R.id.picture);
@@ -24,12 +25,29 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     void RocketsDisplay(Rocket rocket, RequestManager glide) {
         this.myRocketName.setText(rocket.getRocketName());
-        glide.load(rocket.getFlickrImages().get(0)).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        if(rocket.getFlickrImages().get(0) != null){
+            glide.load(rocket.getFlickrImages().get(0)).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        } else {
+            glide.load(R.drawable.rocket).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        }
     }
 
     void LaunchesDisplay(Launch launches, RequestManager glide) {
         this.myRocketName.setText(launches.getMissionName());
-        glide.load(launches.getLinks().getMissionPatchSmall()).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        if(launches.getLinks().getMissionPatchSmall() != null){
+            glide.load(launches.getLinks().getMissionPatchSmall()).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        } else {
+            glide.load(R.drawable.rocket).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        }
     }
 
+    void ShipsDisplay(Ship ships, RequestManager glide) {
+        this.myRocketName.setText(ships.getShipName());
+        if(ships.getImage() != null){
+            glide.load(ships.getImage()).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        } else {
+            glide.load(R.drawable.ship).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        }
+
+    }
 }

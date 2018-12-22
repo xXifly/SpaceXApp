@@ -10,34 +10,38 @@ import com.alexandreexample.spacexapp.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnRockets;
-    private Button btnLaunches;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnRockets = findViewById(R.id.btnRockets);
-        btnLaunches = findViewById(R.id.btnLaunches);
+        Button btnRockets = findViewById(R.id.btnRockets);
+        Button btnLaunches = findViewById(R.id.btnLaunches);
+        Button btnShips = findViewById(R.id.btnShips);
 
         btnRockets.setOnClickListener(this);
         btnLaunches.setOnClickListener(this);
+        btnShips.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         Intent intent;
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnRockets:
                 intent = new Intent(this, ListActivity.class);
-                intent.putExtra("toShow", 1);
+                intent.putExtra("toShow", "rocket");
                 startActivity(intent);
                 break;
             case R.id.btnLaunches:
                 intent = new Intent(this, ListActivity.class);
-                intent.putExtra("toShow", 2);
+                intent.putExtra("toShow", "launch");
+                startActivity(intent);
+                break;
+            case R.id.btnShips:
+                intent = new Intent(this, ListActivity.class);
+                intent.putExtra("toShow", "ship");
                 startActivity(intent);
                 break;
         }

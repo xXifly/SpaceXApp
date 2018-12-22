@@ -45,10 +45,11 @@ public class RocketActivity extends AppCompatActivity implements BaseSliderView.
     }
 
     public void executeRequest() {
-        githubService.getRocket(rocketId).enqueue(new Callback<Rocket>() {
+        githubService.getOneRocket(rocketId).enqueue(new Callback<Rocket>() {
             @Override
             public void onResponse(Call<Rocket> call, Response<Rocket> response) {
                 rocket = response.body();
+                setTitle(rocket.getRocketName());
                 tv2.setText(rocket.getDescription());
                 initialiserSlider();
             }

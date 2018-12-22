@@ -22,5 +22,4 @@ public class Mass implements Serializable {
     public float getLb() {
         return lb;
     }
-
 }

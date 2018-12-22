@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.alexandreexample.spacexapp.Controls.ItemClickSupport;
 import com.alexandreexample.spacexapp.Models.Launch;
 import com.alexandreexample.spacexapp.Models.Rocket;
+import com.alexandreexample.spacexapp.Models.Ship;
 import com.alexandreexample.spacexapp.R;
 import com.alexandreexample.spacexapp.Controls.RecyclerViewAdapter;
 import com.bumptech.glide.Glide;
@@ -31,9 +32,10 @@ public class ListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<Rocket> mRockets;
     private List<Launch> mLaunches;
+    private List<Ship> mShips;
     private RecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private int toShow;
+    private String toShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +46,13 @@ public class ListActivity extends AppCompatActivity {
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
 
         Intent intent = getIntent();
-        this.toShow = intent.getIntExtra("toShow", -1);
+        this.toShow = intent.getStringExtra("toShow");
 
         switch (toShow) {
-            case 1:
+            case "rocket":
                 setTitle("Rockets");
                 break;
-            case 2:
+            case "launch":
                 setTitle("Launches");
                 break;
         }
@@ -75,7 +77,8 @@ public class ListActivity extends AppCompatActivity {
     public void configureRecyclerView() {
         this.mRockets = new ArrayList<>();
         this.mLaunches = new ArrayList<>();
-        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, toShow);
+        this.mShips = new ArrayList<>();
+        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, toShow);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false));
     }
@@ -84,28 +87,37 @@ public class ListActivity extends AppCompatActivity {
     // Execute la requète sur notre API
     public void executeRequest() {
         switch (toShow) {
-            case 1:
-                githubService.getRockets().enqueue(new Callback<List<Rocket>>() {
+            case "rocket":
+                githubService.getAllRockets().enqueue(new Callback<List<Rocket>>() {
                     @Override
                     public void onResponse(Call<List<Rocket>> call, Response<List<Rocket>> response) {
                         List<Rocket> listRockets = response.body();
                         rocketsDisplay(listRockets);
                     }
-
                     @Override
                     public void onFailure(Call<List<Rocket>> call, Throwable t) {
                     }
                 });
-            case 2:
-                githubService.getLaunches().enqueue(new Callback<List<Launch>>() {
+            case "launch":
+                githubService.getAllLaunches().enqueue(new Callback<List<Launch>>() {
                     @Override
                     public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
                         List<Launch> listLaunches = response.body();
                         launchesDisplay(listLaunches);
                     }
-
                     @Override
                     public void onFailure(Call<List<Launch>> call, Throwable t) {
+                    }
+                });
+            case "ship":
+                githubService.getAllShips().enqueue(new Callback<List<Ship>>() {
+                    @Override
+                    public void onResponse(Call<List<Ship>> call, Response<List<Ship>> response) {
+                        List<Ship> listShips = response.body();
+                        shipsDisplay(listShips);
+                    }
+                    @Override
+                    public void onFailure(Call<List<Ship>> call, Throwable t) {
                     }
                 });
         }
@@ -127,6 +139,14 @@ public class ListActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    // Affiche la liste des ships dans notre RecyclerView
+    public void shipsDisplay(List<Ship> listShips) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mShips.clear();
+        mShips.addAll(listShips);
+        mAdapter.notifyDataSetChanged();
+    }
+
     // Configure la prise en compte de clique sur un element de notre RecyclerView
     public void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.list_activity)
@@ -142,14 +162,16 @@ public class ListActivity extends AppCompatActivity {
     public void redirection(int position) {
         Intent intent;
         switch (toShow) {
-            case 1:
+            case "rocket":
                 intent = new Intent(this, RocketActivity.class);
                 intent.putExtra("rocketId", mRockets.get(position).getRocketId());
                 startActivity(intent);
-            case 2:
+                break;
+            case "launch":
                 intent = new Intent(this, LaunchActivity.class);
                 intent.putExtra("flightNumber", mLaunches.get(position).getFlightNumber());
                 startActivity(intent);
+                break;
         }
     }
 }
