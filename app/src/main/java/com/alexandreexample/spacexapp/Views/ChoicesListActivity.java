@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.alexandreexample.spacexapp.Controls.ItemClickSupport;
@@ -26,7 +27,7 @@ import retrofit2.Response;
 
 import static com.alexandreexample.spacexapp.Controls.GithubService.githubService;
 
-public class ListActivity extends AppCompatActivity {
+public class ChoicesListActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Déclaration des variables
     private RecyclerView mRecyclerView;
@@ -35,15 +36,20 @@ public class ListActivity extends AppCompatActivity {
     private List<Ship> mShips;
     private RecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private String toShow;
+    private String toShow, onView;
+    private Button all, past, upcoming;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_activity);
+        setContentView(R.layout.choices_list_activity);
 
         mRecyclerView = findViewById(R.id.rv);
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
+        all = findViewById(R.id.all);
+        past = findViewById(R.id.past);
+        upcoming = findViewById(R.id.upcoming);
+        onView = "all";
 
         Intent intent = getIntent();
         this.toShow = intent.getStringExtra("toShow");
@@ -52,15 +58,19 @@ public class ListActivity extends AppCompatActivity {
             case "rocket":
                 setTitle("Rockets");
                 break;
-            case "ship":
-                setTitle("Ships");
+            case "launch":
+                setTitle("Launches");
                 break;
         }
+
+        all.setOnClickListener(this);
+        past.setOnClickListener(this);
+        upcoming.setOnClickListener(this);
 
         this.configureSwipeRefreshLayout();
         this.configureRecyclerView();
         this.configureOnClickRecyclerView();
-        this.executeRequest();
+        this.executeAllRequest();
     }
 
     // Permet de raffraichir le recyclerView lorsqu'on swipe vers le haut
@@ -68,7 +78,17 @@ public class ListActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                executeRequest();
+                switch (onView){
+                    case "all":
+                        executeAllRequest();
+                        break;
+                    case "past":
+                        executePastRequest();
+                        break;
+                    case "upcoming":
+                        executeUpcomingRequest();
+                        break;
+                }
             }
         });
     }
@@ -85,7 +105,7 @@ public class ListActivity extends AppCompatActivity {
 
 
     // Execute la requète sur notre API
-    public void executeRequest() {
+    public void executeAllRequest() {
         switch (toShow) {
             case "rocket":
                 githubService.getAllRockets().enqueue(new Callback<List<Rocket>>() {
@@ -94,8 +114,21 @@ public class ListActivity extends AppCompatActivity {
                         List<Rocket> listRockets = response.body();
                         rocketsDisplay(listRockets);
                     }
+
                     @Override
                     public void onFailure(Call<List<Rocket>> call, Throwable t) {
+                    }
+                });
+            case "launch":
+                githubService.getAllLaunches().enqueue(new Callback<List<Launch>>() {
+                    @Override
+                    public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
+                        List<Launch> listLaunches = response.body();
+                        launchesDisplay(listLaunches);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Launch>> call, Throwable t) {
                     }
                 });
             case "ship":
@@ -105,8 +138,43 @@ public class ListActivity extends AppCompatActivity {
                         List<Ship> listShips = response.body();
                         shipsDisplay(listShips);
                     }
+
                     @Override
                     public void onFailure(Call<List<Ship>> call, Throwable t) {
+                    }
+                });
+        }
+    }
+
+    public void executePastRequest() {
+        switch (toShow) {
+            case "launch":
+                githubService.getPastLaunches().enqueue(new Callback<List<Launch>>() {
+                    @Override
+                    public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
+                        List<Launch> listLaunches = response.body();
+                        launchesDisplay(listLaunches);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Launch>> call, Throwable t) {
+                    }
+                });
+        }
+    }
+
+    public void executeUpcomingRequest() {
+        switch (toShow) {
+            case "launch":
+                githubService.getUpcomingLaunches().enqueue(new Callback<List<Launch>>() {
+                    @Override
+                    public void onResponse(Call<List<Launch>> call, Response<List<Launch>> response) {
+                        List<Launch> listLaunches = response.body();
+                        launchesDisplay(listLaunches);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Launch>> call, Throwable t) {
                     }
                 });
         }
@@ -138,7 +206,7 @@ public class ListActivity extends AppCompatActivity {
 
     // Configure la prise en compte de clique sur un element de notre RecyclerView
     public void configureOnClickRecyclerView() {
-        ItemClickSupport.addTo(mRecyclerView, R.layout.list_activity)
+        ItemClickSupport.addTo(mRecyclerView, R.layout.choices_list_activity)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -151,10 +219,28 @@ public class ListActivity extends AppCompatActivity {
     public void redirection(int position) {
         Intent intent;
         switch (toShow) {
-            case "rocket":
-                intent = new Intent(this, RocketActivity.class);
-                intent.putExtra("rocketId", mRockets.get(position).getRocketId());
+            case "launch":
+                intent = new Intent(this, LaunchActivity.class);
+                intent.putExtra("data", mLaunches.get(position));
                 startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.all:
+                onView = "all";
+                executeAllRequest();
+                break;
+            case R.id.past:
+                onView = "past";
+                executePastRequest();
+                break;
+            case R.id.upcoming:
+                onView = "upcoming";
+                executeUpcomingRequest();
                 break;
         }
     }

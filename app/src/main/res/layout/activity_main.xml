@@ -19,6 +19,18 @@
         android:text="@string/launches" />
 
     <Button
+        android:id="@+id/btnNextLaunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next Launch" />
+
+    <Button
+        android:id="@+id/btnLatestLaunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Latest Launch" />
+
+    <Button
         android:id="@+id/btnShips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

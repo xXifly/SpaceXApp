@@ -20,15 +20,17 @@
         </activity>
 
         <activity
-            android:name="com.alexandreexample.spacexapp.Views.ListActivity"
-            android:label="List" />
-        <activity
             android:name="com.alexandreexample.spacexapp.Views.RocketActivity"
             android:label="List" />
         <activity
             android:name="com.alexandreexample.spacexapp.Views.LaunchActivity"
             android:label="List" />
-
+        <activity
+            android:name="com.alexandreexample.spacexapp.Views.ListActivity"
+            android:label="List" />
+        <activity
+            android:name="com.alexandreexample.spacexapp.Views.ChoicesListActivity"
+            android:label="List" />
     </application>
 
 </manifest>
