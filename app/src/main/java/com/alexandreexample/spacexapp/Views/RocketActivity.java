@@ -1,4 +1,4 @@
-package com.alexandreexample.spacexapp.Views;
+ package com.alexandreexample.spacexapp.Views;
 
 import android.content.Intent;
 import android.graphics.Point;
@@ -25,38 +25,22 @@ import static com.alexandreexample.spacexapp.Controls.GithubService.githubServic
 
 public class RocketActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
-    private TextView tv2;
     private SliderLayout sliderLayout;
     private HashMap<String, String> HashMapForURL;
-    private String rocketId;
     private Rocket rocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rocket_activity);
-        tv2 = findViewById(R.id.textView2);
+        TextView tv2 = findViewById(R.id.textView2);
         sliderLayout = findViewById(R.id.slider);
 
         Intent intent = getIntent();
-        rocketId = intent.getStringExtra("rocketId");
-        executeRequest();
-
-    }
-
-    public void executeRequest() {
-        githubService.getOneRocket(rocketId).enqueue(new Callback<Rocket>() {
-            @Override
-            public void onResponse(Call<Rocket> call, Response<Rocket> response) {
-                rocket = response.body();
-                setTitle(rocket.getRocketName());
-                tv2.setText(rocket.getDescription());
-                initialiserSlider();
-            }
-            @Override
-            public void onFailure(Call<Rocket> call, Throwable t) {
-            }
-        });
+        rocket = (Rocket) intent.getSerializableExtra("data");
+        setTitle(rocket.getRocketName());
+        tv2.setText(rocket.getDescription());
+        initialiserSlider();
     }
 
     public void initialiserSlider() {
@@ -67,9 +51,8 @@ public class RocketActivity extends AppCompatActivity implements BaseSliderView.
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        int height = (int) (width * 0.667);
 
-        sliderLayout.getLayoutParams().height = height;
+        sliderLayout.getLayoutParams().height = (int) (width * 0.667);
 
         addImageUrl();
         for (String name : HashMapForURL.keySet()) {

@@ -32,9 +32,7 @@ public class ListActivity extends AppCompatActivity {
     // Déclaration des variables
     private RecyclerView mRecyclerView;
     private List<Rocket> mRockets;
-    private List<Launch> mLaunches;
     private List<Ship> mShips;
-    private List<Capsule> mCapsules;
     private RecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String toShow;
@@ -78,9 +76,8 @@ public class ListActivity extends AppCompatActivity {
     // Configure notre RecyclerView
     public void configureRecyclerView() {
         this.mRockets = new ArrayList<>();
-        this.mLaunches = new ArrayList<>();
         this.mShips = new ArrayList<>();
-        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, this.mCapsules, toShow);
+        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, null, this.mShips, null, toShow);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false));
     }
@@ -122,14 +119,6 @@ public class ListActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    // Affiche la liste des launches dans notre RecyclerView
-    public void launchesDisplay(List<Launch> listLaunches) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        mLaunches.clear();
-        mLaunches.addAll(listLaunches);
-        mAdapter.notifyDataSetChanged();
-    }
-
     // Affiche la liste des ships dans notre RecyclerView
     public void shipsDisplay(List<Ship> listShips) {
         mSwipeRefreshLayout.setRefreshing(false);
@@ -155,7 +144,12 @@ public class ListActivity extends AppCompatActivity {
         switch (toShow) {
             case "rocket":
                 intent = new Intent(this, RocketActivity.class);
-                intent.putExtra("rocketId", mRockets.get(position).getRocketId());
+                intent.putExtra("data", mRockets.get(position));
+                startActivity(intent);
+                break;
+            case "ship":
+                intent = new Intent(this, ShipActivity.class);
+                intent.putExtra("data", mShips.get(position));
                 startActivity(intent);
                 break;
         }

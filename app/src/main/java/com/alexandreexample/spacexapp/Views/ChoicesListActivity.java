@@ -32,14 +32,11 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
 
     // Déclaration des variables
     private RecyclerView mRecyclerView;
-    private List<Rocket> mRockets;
     private List<Launch> mLaunches;
-    private List<Ship> mShips;
     private List<Capsule> mCapsules;
     private RecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String toShow, onView;
-    private Button all, past, upcoming;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +45,9 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
 
         mRecyclerView = findViewById(R.id.rv);
         mSwipeRefreshLayout = findViewById(R.id.swipe_container);
-        all = findViewById(R.id.all);
-        past = findViewById(R.id.past);
-        upcoming = findViewById(R.id.upcoming);
+        Button all = findViewById(R.id.all);
+        Button past = findViewById(R.id.past);
+        Button upcoming = findViewById(R.id.upcoming);
         onView = "all";
 
         Intent intent = getIntent();
@@ -100,11 +97,9 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
 
     // Configure notre RecyclerView
     public void configureRecyclerView() {
-        this.mRockets = new ArrayList<>();
         this.mLaunches = new ArrayList<>();
-        this.mShips = new ArrayList<>();
         this.mCapsules = new ArrayList<>();
-        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, this.mCapsules, toShow);
+        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), null, this.mLaunches, null, this.mCapsules, toShow);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false));
     }
@@ -192,27 +187,11 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    // Affiche la liste des rockets dans notre RecyclerView
-    public void rocketsDisplay(List<Rocket> listRockets) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        mRockets.clear();
-        mRockets.addAll(listRockets);
-        mAdapter.notifyDataSetChanged();
-    }
-
     // Affiche la liste des launches dans notre RecyclerView
     public void launchesDisplay(List<Launch> listLaunches) {
         mSwipeRefreshLayout.setRefreshing(false);
         mLaunches.clear();
         mLaunches.addAll(listLaunches);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    // Affiche la liste des ships dans notre RecyclerView
-    public void shipsDisplay(List<Ship> listShips) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        mShips.clear();
-        mShips.addAll(listShips);
         mAdapter.notifyDataSetChanged();
     }
 

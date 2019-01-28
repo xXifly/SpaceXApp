@@ -21,13 +21,16 @@
 
         <activity
             android:name="com.alexandreexample.spacexapp.Views.RocketActivity"
-            android:label="List" />
+            android:label="Rocket" />
         <activity
             android:name="com.alexandreexample.spacexapp.Views.LaunchActivity"
-            android:label="List" />
+            android:label="Launche" />
         <activity
             android:name="com.alexandreexample.spacexapp.Views.CapsuleActivity"
-            android:label="List" />
+            android:label="Capsule" />
+        <activity
+            android:name="com.alexandreexample.spacexapp.Views.ShipActivity"
+            android:label="Ship" />
         <activity
             android:name="com.alexandreexample.spacexapp.Views.ListActivity"
             android:label="List" />

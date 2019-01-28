@@ -17,17 +17,14 @@ import static com.alexandreexample.spacexapp.Controls.GithubService.githubServic
 
 public class LaunchActivity extends AppCompatActivity {
 
-    private TextView mTextView;
-    private Launch launch;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.launch_activity);
-        mTextView = findViewById(R.id.textView);
+        TextView mTextView = findViewById(R.id.textView);
 
         Intent intent = getIntent();
-        launch = (Launch) intent.getSerializableExtra("data");
+        Launch launch = (Launch) intent.getSerializableExtra("data");
 
         setTitle(launch.getMissionName());
         mTextView.setText(launch.getDetails());
