@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alexandreexample.spacexapp.Models.Capsule;
 import com.alexandreexample.spacexapp.Models.Launch;
 import com.alexandreexample.spacexapp.Models.Rocket;
 import com.alexandreexample.spacexapp.Models.Ship;
@@ -48,6 +49,15 @@ class RecyclerViewHolder extends RecyclerView.ViewHolder {
         } else {
             glide.load(R.drawable.ship).apply(RequestOptions.circleCropTransform()).into(myPicture);
         }
+    }
 
+    void CapsulesDisplay(Capsule capsules, RequestManager glide) {
+        this.myRocketName.setText(capsules.getCapsuleSerial());
+        glide.load(R.drawable.rocket).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        /*if(capsules.getLinks().getMissionPatchSmall() != null){
+            glide.load(capsules.getLinks().getMissionPatchSmall()).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        } else {
+            glide.load(R.drawable.rocket).apply(RequestOptions.circleCropTransform()).into(myPicture);
+        }*/
     }
 }

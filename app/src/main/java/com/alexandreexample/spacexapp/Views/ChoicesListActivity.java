@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.alexandreexample.spacexapp.Controls.ItemClickSupport;
+import com.alexandreexample.spacexapp.Models.Capsule;
 import com.alexandreexample.spacexapp.Models.Launch;
 import com.alexandreexample.spacexapp.Models.Rocket;
 import com.alexandreexample.spacexapp.Models.Ship;
@@ -34,6 +35,7 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
     private List<Rocket> mRockets;
     private List<Launch> mLaunches;
     private List<Ship> mShips;
+    private List<Capsule> mCapsules;
     private RecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String toShow, onView;
@@ -60,6 +62,9 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
                 break;
             case "launch":
                 setTitle("Launches");
+                break;
+            case "capsule":
+                setTitle("Capsules");
                 break;
         }
 
@@ -98,7 +103,8 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
         this.mRockets = new ArrayList<>();
         this.mLaunches = new ArrayList<>();
         this.mShips = new ArrayList<>();
-        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, toShow);
+        this.mCapsules = new ArrayList<>();
+        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, this.mCapsules, toShow);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false));
     }
@@ -107,18 +113,6 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
     // Execute la requète sur notre API
     public void executeAllRequest() {
         switch (toShow) {
-            case "rocket":
-                githubService.getAllRockets().enqueue(new Callback<List<Rocket>>() {
-                    @Override
-                    public void onResponse(Call<List<Rocket>> call, Response<List<Rocket>> response) {
-                        List<Rocket> listRockets = response.body();
-                        rocketsDisplay(listRockets);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Rocket>> call, Throwable t) {
-                    }
-                });
             case "launch":
                 githubService.getAllLaunches().enqueue(new Callback<List<Launch>>() {
                     @Override
@@ -126,21 +120,19 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
                         List<Launch> listLaunches = response.body();
                         launchesDisplay(listLaunches);
                     }
-
                     @Override
                     public void onFailure(Call<List<Launch>> call, Throwable t) {
                     }
                 });
-            case "ship":
-                githubService.getAllShips().enqueue(new Callback<List<Ship>>() {
+            case "capsule":
+                githubService.getAllCapsules().enqueue(new Callback<List<Capsule>>() {
                     @Override
-                    public void onResponse(Call<List<Ship>> call, Response<List<Ship>> response) {
-                        List<Ship> listShips = response.body();
-                        shipsDisplay(listShips);
+                    public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
+                        List<Capsule> listCapsules = response.body();
+                        capsulesDisplay(listCapsules);
                     }
-
                     @Override
-                    public void onFailure(Call<List<Ship>> call, Throwable t) {
+                    public void onFailure(Call<List<Capsule>> call, Throwable t) {
                     }
                 });
         }
@@ -155,9 +147,19 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
                         List<Launch> listLaunches = response.body();
                         launchesDisplay(listLaunches);
                     }
-
                     @Override
                     public void onFailure(Call<List<Launch>> call, Throwable t) {
+                    }
+                });
+            case "capsule":
+                githubService.getPastCapsules().enqueue(new Callback<List<Capsule>>() {
+                    @Override
+                    public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
+                        List<Capsule> listCapsules = response.body();
+                        capsulesDisplay(listCapsules);
+                    }
+                    @Override
+                    public void onFailure(Call<List<Capsule>> call, Throwable t) {
                     }
                 });
         }
@@ -172,9 +174,19 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
                         List<Launch> listLaunches = response.body();
                         launchesDisplay(listLaunches);
                     }
-
                     @Override
                     public void onFailure(Call<List<Launch>> call, Throwable t) {
+                    }
+                });
+            case "capsule":
+                githubService.getUpcomingCapsules().enqueue(new Callback<List<Capsule>>() {
+                    @Override
+                    public void onResponse(Call<List<Capsule>> call, Response<List<Capsule>> response) {
+                        List<Capsule> listCapsules = response.body();
+                        capsulesDisplay(listCapsules);
+                    }
+                    @Override
+                    public void onFailure(Call<List<Capsule>> call, Throwable t) {
                     }
                 });
         }
@@ -204,6 +216,14 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
         mAdapter.notifyDataSetChanged();
     }
 
+    // Affiche la liste des ships dans notre RecyclerView
+    public void capsulesDisplay(List<Capsule> listCapsules) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mCapsules.clear();
+        mCapsules.addAll(listCapsules);
+        mAdapter.notifyDataSetChanged();
+    }
+
     // Configure la prise en compte de clique sur un element de notre RecyclerView
     public void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.choices_list_activity)
@@ -222,6 +242,11 @@ public class ChoicesListActivity extends AppCompatActivity implements View.OnCli
             case "launch":
                 intent = new Intent(this, LaunchActivity.class);
                 intent.putExtra("data", mLaunches.get(position));
+                startActivity(intent);
+                break;
+            case "capsule":
+                intent = new Intent(this, CapsuleActivity.class);
+                intent.putExtra("data", mCapsules.get(position));
                 startActivity(intent);
                 break;
         }

@@ -26,6 +26,9 @@
             android:name="com.alexandreexample.spacexapp.Views.LaunchActivity"
             android:label="List" />
         <activity
+            android:name="com.alexandreexample.spacexapp.Views.CapsuleActivity"
+            android:label="List" />
+        <activity
             android:name="com.alexandreexample.spacexapp.Views.ListActivity"
             android:label="List" />
         <activity

@@ -29,12 +29,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnNextLaunch = findViewById(R.id.btnNextLaunch);
         Button btnLatestLaunch = findViewById(R.id.btnLatestLaunch);
         Button btnShips = findViewById(R.id.btnShips);
+        Button btnCapsule = findViewById(R.id.btnCapsule);
 
         btnRockets.setOnClickListener(this);
         btnLaunches.setOnClickListener(this);
         btnNextLaunch.setOnClickListener(this);
         btnLatestLaunch.setOnClickListener(this);
         btnShips.setOnClickListener(this);
+        btnCapsule.setOnClickListener(this);
 
     }
 
@@ -61,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnShips:
                 intent = new Intent(this, ListActivity.class);
                 intent.putExtra("toShow", "ship");
+                startActivity(intent);
+                break;
+            case R.id.btnCapsule:
+                intent = new Intent(this, ChoicesListActivity.class);
+                intent.putExtra("toShow", "capsule");
                 startActivity(intent);
                 break;
         }

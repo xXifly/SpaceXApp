@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.alexandreexample.spacexapp.Controls.ItemClickSupport;
+import com.alexandreexample.spacexapp.Models.Capsule;
 import com.alexandreexample.spacexapp.Models.Launch;
 import com.alexandreexample.spacexapp.Models.Rocket;
 import com.alexandreexample.spacexapp.Models.Ship;
@@ -33,6 +34,7 @@ public class ListActivity extends AppCompatActivity {
     private List<Rocket> mRockets;
     private List<Launch> mLaunches;
     private List<Ship> mShips;
+    private List<Capsule> mCapsules;
     private RecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String toShow;
@@ -78,7 +80,7 @@ public class ListActivity extends AppCompatActivity {
         this.mRockets = new ArrayList<>();
         this.mLaunches = new ArrayList<>();
         this.mShips = new ArrayList<>();
-        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, toShow);
+        this.mAdapter = new RecyclerViewAdapter(Glide.with(this), this.mRockets, this.mLaunches, this.mShips, this.mCapsules, toShow);
         this.mRecyclerView.setAdapter(this.mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayout.VERTICAL, false));
     }

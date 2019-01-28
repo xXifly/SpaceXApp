@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alexandreexample.spacexapp.Models.Capsule;
 import com.alexandreexample.spacexapp.Models.Launch;
 import com.alexandreexample.spacexapp.Models.Rocket;
 import com.alexandreexample.spacexapp.Models.Ship;
@@ -20,13 +21,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     private List<Rocket> rockets;
     private List<Launch> launches;
     private List<Ship> ships;
+    private List<Capsule> capsules;
     private String toShow;
 
     // CONSTRUCTOR
-    public RecyclerViewAdapter(RequestManager glide, List<Rocket> rockets, List<Launch> launches, List<Ship> ships, String toShow) {
+    public RecyclerViewAdapter(RequestManager glide, List<Rocket> rockets, List<Launch> launches, List<Ship> ships, List<Capsule> capsules, String toShow) {
         this.rockets = rockets;
         this.launches = launches;
         this.ships = ships;
+        this.capsules = capsules;
         this.glide = glide;
         this.toShow = toShow;
     }
@@ -51,6 +54,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
             case "ship":
                 holder.ShipsDisplay(ships.get(position), this.glide);
                 break;
+            case "capsule":
+                holder.CapsulesDisplay(capsules.get(position), this.glide);
+                break;
         }
 
     }
@@ -67,6 +73,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
                 break;
             case "ship":
                 count = ships.size();
+                break;
+            case "capsule":
+                count = capsules.size();
                 break;
         }
         return count;
