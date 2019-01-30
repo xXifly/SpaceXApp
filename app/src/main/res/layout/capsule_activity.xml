@@ -9,6 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:background="#4EFFFFFF"
+        android:padding="4dp"
+        android:textColor="#000"
         android:text="TextView" />
 
 </LinearLayout>

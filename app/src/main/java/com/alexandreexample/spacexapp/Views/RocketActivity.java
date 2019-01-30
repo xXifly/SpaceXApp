@@ -2,9 +2,12 @@
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.alexandreexample.spacexapp.Models.Rocket;
@@ -23,7 +26,7 @@ import retrofit2.Response;
 
 import static com.alexandreexample.spacexapp.Controls.GithubService.githubService;
 
-public class RocketActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class RocketActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, View.OnClickListener {
 
     private SliderLayout sliderLayout;
     private HashMap<String, String> HashMapForURL;
@@ -34,7 +37,10 @@ public class RocketActivity extends AppCompatActivity implements BaseSliderView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rocket_activity);
         TextView tv2 = findViewById(R.id.textView2);
+        Button btnDetails = findViewById(R.id.details);
         sliderLayout = findViewById(R.id.slider);
+
+        btnDetails.setOnClickListener(this);
 
         Intent intent = getIntent();
         rocket = (Rocket) intent.getSerializableExtra("data");
@@ -42,6 +48,19 @@ public class RocketActivity extends AppCompatActivity implements BaseSliderView.
         tv2.setText(rocket.getDescription());
         initialiserSlider();
     }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.details:
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(rocket.getWikipedia()));
+                startActivity(intent);
+                break;
+        }
+    }
+
 
     public void initialiserSlider() {
         sliderLayout.stopAutoCycle();

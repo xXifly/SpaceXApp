@@ -25,7 +25,7 @@ public class Links implements Serializable {
     private String videoLink;
     @SerializedName("flickr_images")
     @Expose
-    private List<Object> flickrImages = null;
+    private List<String> flickrImages = null;
     @SerializedName("presskit")
     @Expose
     private String presskit;
@@ -50,7 +50,7 @@ public class Links implements Serializable {
         return videoLink;
     }
 
-    public List<Object> getFlickrImages() {
+    public List<String> getFlickrImages() {
         return flickrImages;
     }
 

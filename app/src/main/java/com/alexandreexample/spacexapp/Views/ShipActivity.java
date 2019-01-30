@@ -17,8 +17,8 @@ import com.bumptech.glide.RequestManager;
 
 public class ShipActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Ship ship;
-    ImageView mImageView;
+    private Ship ship;
+    private ImageView mImageView;
     private RequestManager glide;
 
     @Override

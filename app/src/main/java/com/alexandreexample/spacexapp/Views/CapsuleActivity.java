@@ -20,7 +20,7 @@ public class CapsuleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Capsule capsule = (Capsule) intent.getSerializableExtra("data");
 
-        setTitle(capsule.getCapsuleId());
+        setTitle(capsule.getCapsuleSerial());
         mTextView.setText(capsule.getDetails());
 
     }
