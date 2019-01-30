@@ -1,46 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipe_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:background="?android:attr/colorLongPressedHighlight">
+    android:background="@drawable/space"
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnRockets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/rockets" />
 
-    <Button
-        android:id="@+id/btnLaunches"
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/launches" />
+        android:layout_height="91dp"
+        app:srcCompat="@drawable/spacex"
+        android:contentDescription="@string/logo" />
 
-    <Button
-        android:id="@+id/btnNextLaunch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/next_launch" />
 
-    <Button
-        android:id="@+id/btnLatestLaunch"
+    <LinearLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/latest_launch" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="4dp">
 
-    <Button
-        android:id="@+id/btnShips"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ships" />
 
-    <Button
-        android:id="@+id/btnCapsule"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/capsule" />
+        <Button
+            android:id="@+id/btnRockets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="#4EFFFFFF"
+            android:text="@string/rockets"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnLaunches"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="#4EFFFFFF"
+            android:textSize="20sp"
+            android:text="@string/launches" />
+
+        <Button
+            android:id="@+id/btnNextLaunch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="#4EFFFFFF"
+            android:textSize="20sp"
+            android:text="@string/next_launch" />
+
+        <Button
+            android:id="@+id/btnLatestLaunch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="#4EFFFFFF"
+            android:textSize="20sp"
+            android:text="@string/latest_launch" />
+
+        <Button
+            android:id="@+id/btnShips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="#4EFFFFFF"
+            android:textSize="20sp"
+            android:text="@string/ships" />
+
+        <Button
+            android:id="@+id/btnCapsule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="#4EFFFFFF"
+            android:textSize="20sp"
+            android:text="@string/capsule" />
+
+    </LinearLayout>
 
 </LinearLayout>

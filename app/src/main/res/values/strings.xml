@@ -6,4 +6,6 @@
     <string name="capsule">Capsule</string>
     <string name="next_launch">Next Launch</string>
     <string name="latest_launch">Latest Launch</string>
+    <string name="details">More details ...</string>
+    <string name="logo">SpaceX logo</string>
 </resources>
